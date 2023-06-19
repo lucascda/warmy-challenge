@@ -1,0 +1,12 @@
+{
+  "name": "warmy-challenge",
+  "version": "1.0.0",
+  "description": "Simple todo list api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Lucas César",
+  "license": "ISC"
+}
