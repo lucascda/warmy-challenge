@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest -i --passWithNoTests --silent --noStackTrace",
+    "test:watch": "npm test -- --watch",
     "start:dev": "tsnd --respawn --transpile-only src/server.ts",
     "prepare": "husky install"
   },

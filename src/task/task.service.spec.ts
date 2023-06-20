@@ -6,6 +6,13 @@ import { faker } from '@faker-js/faker';
 describe('TaskService Unit Tests', () => {
   const service = new TaskService(prismaMock);
 
+  const mockedOutputData = {
+    id: 1,
+    finished: false,
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+  };
+
   describe('When creating a new task', () => {
     it('should call PrismaClient.create with correct data', async () => {
       const createTaskInput: CreateTaskInputDto = {
@@ -25,6 +32,22 @@ describe('TaskService Unit Tests', () => {
       await service.create(createTaskInput);
 
       expect(prismaSpy).toHaveBeenCalledWith({ data: createTaskInput });
+    });
+
+    it('should return correct response', async () => {
+      const createTaskInput: CreateTaskInputDto = {
+        title: faker.word.words(),
+        description: faker.lorem.sentence(),
+      };
+
+      prismaMock.task.create.mockResolvedValue({
+        ...createTaskInput,
+        ...mockedOutputData,
+      });
+
+      const response = await service.create(createTaskInput);
+
+      expect(response).toEqual({ ...createTaskInput, ...mockedOutputData });
     });
   });
 });
