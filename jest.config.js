@@ -2,6 +2,6 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  setupFilesAfterEnv: ['<rootDir>/src/utils/prismaMock.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/utils/tests/prismaMock.ts'],
   modulePathIgnorePatterns: ['data'],
 };
