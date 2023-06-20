@@ -14,9 +14,12 @@ describe('TaskController Unit Tests', () => {
     body: createTaskInput,
   } as any;
 
-  const res = {
-    status: 200,
-  } as any;
+  const mockResponse = (): any => {
+    const res: any = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+    return res;
+  };
 
   describe('When creating a new task', () => {
     let sandbox: sinon.SinonSandbox;
@@ -32,10 +35,21 @@ describe('TaskController Unit Tests', () => {
     it('should call TaskService.create with correct data', async () => {
       sandbox.stub(service, 'create').resolves(createTaskOutput);
       const serviceSpy = jest.spyOn(service, 'create');
+      const res = mockResponse();
 
       await controller.create(mockRequest, res);
 
       expect(serviceSpy).toHaveBeenCalledWith(mockRequest.body);
+    });
+
+    it('should return correct data on success', async () => {
+      sandbox.stub(service, 'create').resolves(createTaskOutput);
+      const res = mockResponse();
+
+      await controller.create(mockRequest, res);
+
+      sinon.assert.calledWith(res.status, 200);
+      sinon.assert.calledWith(res.json, createTaskOutput);
     });
   });
 });
