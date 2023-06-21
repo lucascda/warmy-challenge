@@ -52,4 +52,26 @@ describe('TaskController Unit Tests', () => {
       sinon.assert.calledWith(res.json, createTaskOutput);
     });
   });
+
+  describe('When listing all tasks', () => {
+    let sandbox: sinon.SinonSandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('it should call TaskService.getAll', async () => {
+      sandbox.stub(service, 'getAll').resolves([]);
+      const serviceSpy = jest.spyOn(service, 'getAll');
+      const res = mockResponse();
+
+      await controller.getAll(mockRequest, res);
+
+      expect(serviceSpy).toHaveBeenCalled();
+    });
+  });
 });
