@@ -6,6 +6,7 @@ import {
 } from '../utils/tests/stubs/task.stub';
 import { prismaMock } from '../utils/tests/prismaMock';
 import * as sinon from 'sinon';
+import { TasksNotFoundError } from './tasks.errors';
 
 describe('TaskController Unit Tests', () => {
   const service = new TaskService(prismaMock);
@@ -63,6 +64,19 @@ describe('TaskController Unit Tests', () => {
       await controller.getAll(mockRequest, res);
 
       expect(serviceSpy).toHaveBeenCalled();
+    });
+
+    it('it should return error response if TaskService.getAll throws', async () => {
+      sandbox.stub(service, 'getAll').rejects(new TasksNotFoundError());
+      const res = mockResponse();
+
+      await controller.getAll(mockRequest, res);
+
+      sinon.assert.calledWith(res.status, 204);
+      sinon.assert.calledWith(res.json, {
+        statusCode: 204,
+        message: 'Tasks were not found.',
+      });
     });
   });
 });

@@ -1,6 +1,8 @@
 import { type Request, type Response } from 'express';
 import { type TaskService } from './task.service';
 import { type CreateTaskOutputDto } from './dto/createTask.dto';
+import { type Task } from './task.entity';
+import { TasksNotFoundError } from './tasks.errors';
 
 export class TaskController {
   constructor(private readonly service: TaskService) {}
@@ -15,8 +17,16 @@ export class TaskController {
   }
 
   async getAll(req: Request, res: Response): Promise<any> {
-    const allTasks = await this.service.getAll();
-
-    return allTasks;
+    let allTasks: Task[] = [];
+    try {
+      allTasks = await this.service.getAll();
+      return allTasks;
+    } catch (e) {
+      if (e instanceof TasksNotFoundError)
+        return res.status(204).json({
+          statusCode: 204,
+          message: e.message,
+        });
+    }
   }
 }
