@@ -6,9 +6,20 @@ import {
 } from '../utils/tests/stubs/task.stub';
 import { prismaMock } from '../utils/tests/prismaMock';
 import * as sinon from 'sinon';
+
 describe('TaskController Unit Tests', () => {
   const service = new TaskService(prismaMock);
   const controller = new TaskController(service);
+
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   const mockRequest = {
     body: createTaskInput,
@@ -22,16 +33,6 @@ describe('TaskController Unit Tests', () => {
   };
 
   describe('When creating a new task', () => {
-    let sandbox: sinon.SinonSandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.createSandbox();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     it('should call TaskService.create with correct data', async () => {
       sandbox.stub(service, 'create').resolves(createTaskOutput);
       const serviceSpy = jest.spyOn(service, 'create');
@@ -54,16 +55,6 @@ describe('TaskController Unit Tests', () => {
   });
 
   describe('When listing all tasks', () => {
-    let sandbox: sinon.SinonSandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.createSandbox();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     it('it should call TaskService.getAll', async () => {
       sandbox.stub(service, 'getAll').resolves([]);
       const serviceSpy = jest.spyOn(service, 'getAll');
