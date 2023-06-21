@@ -3,6 +3,7 @@ import { prismaMock } from '../utils/tests/prismaMock';
 import {
   createTaskInput,
   createTaskOutput,
+  getAllOutput,
 } from '../utils/tests/stubs/task.stub';
 
 describe('TaskService Unit Tests', () => {
@@ -24,6 +25,24 @@ describe('TaskService Unit Tests', () => {
       const response = await service.create(createTaskInput);
 
       expect(response).toEqual(createTaskOutput);
+    });
+  });
+
+  describe('When listing all tasks', () => {
+    it('it should call PrismaClient.findMany and return correct response', async () => {
+      const prismaSpy = jest.spyOn(prismaMock.task, 'findMany');
+
+      await service.getAll();
+
+      expect(prismaSpy).toHaveBeenCalled();
+    });
+
+    it('it should return correct response', async () => {
+      prismaMock.task.findMany.mockResolvedValue(getAllOutput);
+
+      const response = await service.getAll();
+
+      expect(response).toEqual(getAllOutput);
     });
   });
 });

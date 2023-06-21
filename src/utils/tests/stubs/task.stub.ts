@@ -3,6 +3,7 @@ import {
   type CreateTaskInputDto,
   type CreateTaskOutputDto,
 } from '../../../task/dto/createTask.dto';
+import { type Task } from '../../../task/task.entity';
 
 export const createTaskInput: CreateTaskInputDto = {
   title: faker.word.words(),
@@ -14,3 +15,16 @@ export const createTaskOutput: CreateTaskOutputDto = {
   finished: false,
   ...createTaskInput,
 };
+
+export const getAllOutput: Task[] = [
+  {
+    id: 1,
+    finished: false,
+    ...createTaskInput,
+  },
+  {
+    id: 2,
+    finished: true,
+    ...createTaskInput,
+  },
+];

@@ -3,6 +3,7 @@ import {
   type CreateTaskOutputDto,
   type CreateTaskInputDto,
 } from './dto/createTask.dto';
+import { type Task } from './task.entity';
 
 export class TaskService {
   constructor(private readonly prisma: PrismaClient) {}
@@ -11,5 +12,9 @@ export class TaskService {
     createTaskInput: CreateTaskInputDto,
   ): Promise<CreateTaskOutputDto> {
     return await this.prisma.task.create({ data: createTaskInput });
+  }
+
+  async getAll(): Promise<Task[]> {
+    return await this.prisma.task.findMany();
   }
 }
