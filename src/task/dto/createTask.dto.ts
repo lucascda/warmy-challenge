@@ -1,5 +1,9 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class CreateTaskInputDto {
+  @IsNotEmpty()
   title: string;
+
   description: string;
 
   constructor(title: string, description: string) {
