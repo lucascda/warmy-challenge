@@ -4,6 +4,7 @@ import {
   type CreateTaskInputDto,
 } from './dto/createTask.dto';
 import { type Task } from './task.entity';
+import { TasksNotFoundError } from './tasks.errors';
 
 export class TaskService {
   constructor(private readonly prisma: PrismaClient) {}
@@ -17,7 +18,7 @@ export class TaskService {
   async getAll(): Promise<Task[]> {
     const tasks = await this.prisma.task.findMany({});
 
-    if (tasks.length === 0) throw new Error('No tasks were found');
+    if (tasks.length === 0) throw new TasksNotFoundError();
 
     return tasks;
   }

@@ -6,6 +6,7 @@ import {
   getAllOutput,
 } from '../utils/tests/stubs/task.stub';
 import { type Task } from './task.entity';
+import { TasksNotFoundError } from './tasks.errors';
 
 describe('TaskService Unit Tests', () => {
   const service = new TaskService(prismaMock);
@@ -46,7 +47,7 @@ describe('TaskService Unit Tests', () => {
 
       const promise = service.getAll();
 
-      await expect(promise).rejects.toThrow(new Error('No tasks were found'));
+      await expect(promise).rejects.toThrow(new TasksNotFoundError());
     });
 
     it('it should return correct response', async () => {
