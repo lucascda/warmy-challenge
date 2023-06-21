@@ -5,6 +5,7 @@ import {
   createTaskOutput,
   getAllOutput,
 } from '../utils/tests/stubs/task.stub';
+import { type Task } from './task.entity';
 
 describe('TaskService Unit Tests', () => {
   const service = new TaskService(prismaMock);
@@ -29,12 +30,23 @@ describe('TaskService Unit Tests', () => {
   });
 
   describe('When listing all tasks', () => {
-    it('it should call PrismaClient.findMany and return correct response', async () => {
-      const prismaSpy = jest.spyOn(prismaMock.task, 'findMany');
+    it('it should call PrismaClient.findMany', async () => {
+      const prismaSpy = jest
+        .spyOn(prismaMock.task, 'findMany')
+        .mockResolvedValue(getAllOutput);
 
       await service.getAll();
 
       expect(prismaSpy).toHaveBeenCalled();
+    });
+
+    it('it should throw if no tasks were found', async () => {
+      const emptyTasks: Task[] = [];
+      prismaMock.task.findMany.mockResolvedValue(emptyTasks);
+
+      const promise = service.getAll();
+
+      await expect(promise).rejects.toThrow(new Error('No tasks were found'));
     });
 
     it('it should return correct response', async () => {

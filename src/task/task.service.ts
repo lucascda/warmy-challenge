@@ -15,6 +15,10 @@ export class TaskService {
   }
 
   async getAll(): Promise<Task[]> {
-    return await this.prisma.task.findMany();
+    const tasks = await this.prisma.task.findMany({});
+
+    if (tasks.length === 0) throw new Error('No tasks were found');
+
+    return tasks;
   }
 }
