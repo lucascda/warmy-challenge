@@ -4,7 +4,7 @@ import {
   type Response,
   type RequestHandler,
 } from 'express';
-import { createTaskController } from './task/task.factory';
+import { taskController } from './task/task.factory';
 import { ValidationMiddleware } from './utils/middlewares/validationMiddleware';
 import { CreateTaskInputDto } from './task/dto/createTask.dto';
 
@@ -14,8 +14,12 @@ router.post(
   '/tasks',
   ValidationMiddleware.validate(CreateTaskInputDto) as RequestHandler,
   (async (req: Request, res: Response) => {
-    return await createTaskController.create(req, res);
+    return await taskController.create(req, res);
   }) as RequestHandler,
 );
+
+router.get('/tasks', (async (req: Request, res: Response) => {
+  return await taskController.getAll(req, res);
+}) as RequestHandler);
 
 export { router };

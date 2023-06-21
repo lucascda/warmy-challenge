@@ -20,7 +20,10 @@ export class TaskController {
     let allTasks: Task[] = [];
     try {
       allTasks = await this.service.getAll();
-      return allTasks;
+      return res.status(200).json({
+        statusCode: 200,
+        data: { ...allTasks },
+      });
     } catch (e) {
       if (e instanceof TasksNotFoundError)
         return res.status(204).json({
