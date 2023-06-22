@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express';
 import { type TaskService } from './task.service';
 import { type CreateTaskOutputDto } from './dto/createTask.dto';
 import { type Task } from './task.entity';
-import { TasksNotFoundError } from './tasks.errors';
+import { TaskNotFoundError, TasksNotFoundError } from './tasks.errors';
 
 export class TaskController {
   constructor(private readonly service: TaskService) {}
@@ -34,6 +34,16 @@ export class TaskController {
   }
 
   async getById(req: Request, res: Response): Promise<any> {
-    await this.service.getById(req.params.taskId);
+    let task: Task;
+    try {
+      task = await this.service.getById(req.params.taskId);
+      return task;
+    } catch (e) {
+      if (e instanceof TaskNotFoundError)
+        return res.status(204).json({
+          statusCode: 204,
+          message: e.message,
+        });
+    }
   }
 }
