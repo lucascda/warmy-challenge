@@ -34,3 +34,9 @@ export const getByIdOutput: Task = {
   finished: false,
   ...createTaskInput,
 };
+
+export const getByIdInput: Task = {
+  id: 3,
+  finished: true,
+  ...createTaskInput,
+};

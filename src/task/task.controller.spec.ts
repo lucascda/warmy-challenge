@@ -4,6 +4,7 @@ import {
   createTaskInput,
   createTaskOutput,
   getAllOutput,
+  getByIdInput,
   getByIdOutput,
 } from '../utils/tests/stubs/task.stub';
 import { prismaMock } from '../utils/tests/prismaMock';
@@ -132,6 +133,21 @@ describe('TaskController Unit Tests', () => {
         statusCode: 204,
         message: 'Task was not found',
       });
+    });
+  });
+
+  describe('When updating a specific task', () => {
+    const params = { taskId: '1' };
+    const req = mockRequest({ ...getByIdInput }, params);
+    const res = mockResponse();
+
+    it('should call TaskService.updateById with task id and task data', async () => {
+      const serviceSpy = jest.spyOn(service, 'updateById');
+
+      await controller.updateById(req, res);
+
+      expect(serviceSpy).toHaveBeenCalledWith(params.taskId, req.body);
+      expect(req.body).toEqual(getByIdInput);
     });
   });
 });

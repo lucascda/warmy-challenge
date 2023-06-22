@@ -49,4 +49,8 @@ export class TaskController {
         });
     }
   }
+
+  async updateById(req: Request, res: Response): Promise<any> {
+    await this.service.updateById(req.params.taskId, req.body);
+  }
 }
