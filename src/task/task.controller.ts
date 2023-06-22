@@ -32,4 +32,8 @@ export class TaskController {
         });
     }
   }
+
+  async getById(req: Request, res: Response): Promise<any> {
+    await this.service.getById(req.params.taskId);
+  }
 }

@@ -23,8 +23,9 @@ describe('TaskController Unit Tests', () => {
     sandbox.restore();
   });
 
-  const mockRequest = (data?: any): any => ({
+  const mockRequest = (data?: any, params?: any): any => ({
     body: data,
+    params,
   });
 
   const mockResponse = (): any => {
@@ -92,6 +93,20 @@ describe('TaskController Unit Tests', () => {
         statusCode: 200,
         data: getAllOutput,
       });
+    });
+  });
+
+  describe('When listing a specific task', () => {
+    const params = { taskId: '1' };
+    const req = mockRequest({}, params);
+    const res = mockResponse();
+
+    it('should call TaskService.getById with task id', async () => {
+      const serviceSpy = jest.spyOn(service, 'getById');
+
+      await controller.getById(req, res);
+
+      expect(serviceSpy).toHaveBeenCalledWith('1');
     });
   });
 });
