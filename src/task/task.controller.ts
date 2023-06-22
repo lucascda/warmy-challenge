@@ -37,7 +37,10 @@ export class TaskController {
     let task: Task;
     try {
       task = await this.service.getById(req.params.taskId);
-      return task;
+      return res.status(200).json({
+        statusCode: 200,
+        data: task,
+      });
     } catch (e) {
       if (e instanceof TaskNotFoundError)
         return res.status(204).json({

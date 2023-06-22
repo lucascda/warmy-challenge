@@ -4,6 +4,7 @@ import {
   createTaskInput,
   createTaskOutput,
   getAllOutput,
+  getByIdOutput,
 } from '../utils/tests/stubs/task.stub';
 import { prismaMock } from '../utils/tests/prismaMock';
 import * as sinon from 'sinon';
@@ -107,6 +108,18 @@ describe('TaskController Unit Tests', () => {
       await controller.getById(req, res);
 
       expect(serviceSpy).toHaveBeenCalledWith('1');
+    });
+
+    it('should return succesful response if task was found ', async () => {
+      sandbox.stub(service, 'getById').resolves(getByIdOutput);
+
+      await controller.getById(req, res);
+
+      sinon.assert.calledWith(res.status, 200);
+      sinon.assert.calledWith(res.json, {
+        statusCode: 200,
+        data: getByIdOutput,
+      });
     });
 
     it('should return error response if TaskService.getById throws', async () => {
