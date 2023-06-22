@@ -139,5 +139,13 @@ describe('TaskService Unit Tests', () => {
 
       await expect(promise).rejects.toThrow(new TaskNotFoundError());
     });
+
+    it('should return correct response if task was deleted', async () => {
+      prismaMock.task.delete.mockResolvedValue(getByIdOutput);
+
+      const response = await service.deleteById('1');
+
+      expect(response).toEqual(getByIdOutput);
+    });
   });
 });
