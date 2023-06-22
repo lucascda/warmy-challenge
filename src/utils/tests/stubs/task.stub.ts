@@ -28,3 +28,9 @@ export const getAllOutput: Task[] = [
     ...createTaskInput,
   },
 ];
+
+export const getByIdOutput: Task = {
+  id: 1,
+  finished: false,
+  ...createTaskInput,
+};

@@ -4,6 +4,7 @@ import {
   createTaskInput,
   createTaskOutput,
   getAllOutput,
+  getByIdOutput,
 } from '../utils/tests/stubs/task.stub';
 import { type Task } from './task.entity';
 import { TaskNotFoundError, TasksNotFoundError } from './tasks.errors';
@@ -74,6 +75,14 @@ describe('TaskService Unit Tests', () => {
       const promise = service.getById(1);
 
       await expect(promise).rejects.toThrow(new TaskNotFoundError());
+    });
+
+    it('should return correct response if task was found', async () => {
+      prismaMock.task.findUnique.mockResolvedValue(getByIdOutput);
+
+      const response = await service.getById(1);
+
+      expect(response).toEqual(getByIdOutput);
     });
   });
 });
