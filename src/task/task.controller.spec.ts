@@ -23,9 +23,9 @@ describe('TaskController Unit Tests', () => {
     sandbox.restore();
   });
 
-  const mockRequest = {
-    body: createTaskInput,
-  } as any;
+  const mockRequest = (data?: any): any => ({
+    body: data,
+  });
 
   const mockResponse = (): any => {
     const res: any = {};
@@ -35,21 +35,22 @@ describe('TaskController Unit Tests', () => {
   };
 
   describe('When creating a new task', () => {
+    const req = mockRequest(createTaskInput);
+    const res = mockResponse();
+
     it('should call TaskService.create with correct data', async () => {
       sandbox.stub(service, 'create').resolves(createTaskOutput);
       const serviceSpy = jest.spyOn(service, 'create');
-      const res = mockResponse();
 
-      await controller.create(mockRequest, res);
+      await controller.create(req, res);
 
-      expect(serviceSpy).toHaveBeenCalledWith(mockRequest.body);
+      expect(serviceSpy).toHaveBeenCalledWith(req.body);
     });
 
     it('should return correct data on success', async () => {
       sandbox.stub(service, 'create').resolves(createTaskOutput);
-      const res = mockResponse();
 
-      await controller.create(mockRequest, res);
+      await controller.create(req, res);
 
       sinon.assert.calledWith(res.status, 200);
       sinon.assert.calledWith(res.json, createTaskOutput);
@@ -57,21 +58,22 @@ describe('TaskController Unit Tests', () => {
   });
 
   describe('When listing all tasks', () => {
+    const req = mockRequest();
+    const res = mockResponse();
+
     it('it should call TaskService.getAll', async () => {
       sandbox.stub(service, 'getAll').resolves([]);
       const serviceSpy = jest.spyOn(service, 'getAll');
-      const res = mockResponse();
 
-      await controller.getAll(mockRequest, res);
+      await controller.getAll(req, res);
 
       expect(serviceSpy).toHaveBeenCalled();
     });
 
     it('it should return error response if TaskService.getAll throws', async () => {
       sandbox.stub(service, 'getAll').rejects(new TasksNotFoundError());
-      const res = mockResponse();
 
-      await controller.getAll(mockRequest, res);
+      await controller.getAll(req, res);
 
       sinon.assert.calledWith(res.status, 204);
       sinon.assert.calledWith(res.json, {
@@ -82,9 +84,8 @@ describe('TaskController Unit Tests', () => {
 
     it('should return correct response if TaskService.getAll returns', async () => {
       sandbox.stub(service, 'getAll').resolves(getAllOutput);
-      const res = mockResponse();
 
-      await controller.getAll(mockRequest, res);
+      await controller.getAll(req, res);
 
       sinon.assert.calledWith(res.status, 200);
       sinon.assert.calledWith(res.json, {
