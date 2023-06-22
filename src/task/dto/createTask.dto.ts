@@ -30,3 +30,15 @@ export class CreateTaskOutputDto {
     this.finished = finished;
   }
 }
+
+export class UpdateTaskInputDto {
+  title: string;
+  description: string;
+  finished: boolean;
+
+  constructor(title: string, description: string, finished: boolean) {
+    this.title = title;
+    this.description = description;
+    this.finished = finished;
+  }
+}

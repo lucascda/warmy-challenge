@@ -2,6 +2,7 @@ import { type PrismaClient } from '@prisma/client';
 import {
   type CreateTaskOutputDto,
   type CreateTaskInputDto,
+  type UpdateTaskInputDto,
 } from './dto/createTask.dto';
 import { type Task } from './task.entity';
 import { TaskNotFoundError, TasksNotFoundError } from './tasks.errors';
@@ -33,12 +34,21 @@ export class TaskService {
     return task;
   }
 
-  async updateById(id: string): Promise<any> {
+  async updateById(
+    id: string,
+    updateTaskInput: UpdateTaskInputDto,
+  ): Promise<Task> {
     const task = await this.prisma.task.findUnique({
       where: { id: Number(id) },
     });
     if (task === null) {
       throw new TaskNotFoundError();
     }
+    const updatedTask = await this.prisma.task.update({
+      where: { id: Number(id) },
+      data: updateTaskInput,
+    });
+
+    return updatedTask;
   }
 }

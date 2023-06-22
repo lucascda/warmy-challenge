@@ -87,10 +87,17 @@ describe('TaskService Unit Tests', () => {
   });
 
   describe('When updating a specifig task', () => {
+    const updatedTask = {
+      ...getByIdOutput,
+      title: 'updated_title',
+      description: 'updated_description',
+      finished: true,
+    };
+
     it('should call PrismaClient.findUnique with task id', async () => {
       const prismaSpy = jest.spyOn(prismaMock.task, 'findUnique');
 
-      await service.updateById('1');
+      await service.updateById('1', updatedTask);
 
       expect(prismaSpy).toHaveBeenCalledWith({ where: { id: 1 } });
     });
@@ -98,9 +105,21 @@ describe('TaskService Unit Tests', () => {
     it('should throw if task was not found', async () => {
       prismaMock.task.findUnique.mockResolvedValue(null as any);
 
-      const promise = service.updateById('1');
+      const promise = service.updateById('1', updatedTask);
 
       await expect(promise).rejects.toThrow(new TaskNotFoundError());
+    });
+
+    it('it should update task with correct data', async () => {
+      const prismaSpy = prismaMock.task.update.mockResolvedValue(updatedTask);
+
+      const response = await service.updateById('1', updatedTask);
+
+      expect(prismaSpy).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: updatedTask,
+      });
+      expect(response).toEqual(updatedTask);
     });
   });
 });
