@@ -122,4 +122,14 @@ describe('TaskService Unit Tests', () => {
       expect(response).toEqual(updatedTask);
     });
   });
+
+  describe('When deleting a specific task', () => {
+    it('should call PrismaClient.delete with task id', async () => {
+      const prismaSpy = jest.spyOn(prismaMock.task, 'delete');
+
+      await service.deleteById('1');
+
+      expect(prismaSpy).toHaveBeenCalledWith({ where: { id: 1 } });
+    });
+  });
 });

@@ -51,4 +51,8 @@ export class TaskService {
 
     return updatedTask;
   }
+
+  async deleteById(id: string): Promise<any> {
+    await this.prisma.task.delete({ where: { id: Number(id) } });
+  }
 }
