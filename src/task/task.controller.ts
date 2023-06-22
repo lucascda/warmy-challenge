@@ -51,6 +51,10 @@ export class TaskController {
   }
 
   async updateById(req: Request, res: Response): Promise<any> {
+    try {
+      await this.service.getById(req.params.taskId);
+    } catch (e) {}
+
     await this.service.updateById(req.params.taskId, req.body);
   }
 }

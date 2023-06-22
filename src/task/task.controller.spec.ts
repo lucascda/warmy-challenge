@@ -141,6 +141,16 @@ describe('TaskController Unit Tests', () => {
     const req = mockRequest({ ...getByIdInput }, params);
     const res = mockResponse();
 
+    it('should call TaskService.getById with task id', async () => {
+      const serviceSpy = jest
+        .spyOn(service, 'getById')
+        .mockResolvedValue(getByIdInput);
+
+      await controller.updateById(req, res);
+
+      expect(serviceSpy).toHaveBeenCalledWith(req.params.taskId);
+    });
+
     it('should call TaskService.updateById with task id and task data', async () => {
       const serviceSpy = jest.spyOn(service, 'updateById');
 
