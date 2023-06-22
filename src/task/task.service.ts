@@ -34,6 +34,11 @@ export class TaskService {
   }
 
   async updateById(id: string): Promise<any> {
-    await this.prisma.task.findUnique({ where: { id: Number(id) } });
+    const task = await this.prisma.task.findUnique({
+      where: { id: Number(id) },
+    });
+    if (task === null) {
+      throw new TaskNotFoundError();
+    }
   }
 }

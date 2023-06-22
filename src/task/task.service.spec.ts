@@ -94,5 +94,13 @@ describe('TaskService Unit Tests', () => {
 
       expect(prismaSpy).toHaveBeenCalledWith({ where: { id: 1 } });
     });
+
+    it('should throw if task was not found', async () => {
+      prismaMock.task.findUnique.mockResolvedValue(null as any);
+
+      const promise = service.updateById('1');
+
+      await expect(promise).rejects.toThrow(new TaskNotFoundError());
+    });
   });
 });
