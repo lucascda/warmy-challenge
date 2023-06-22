@@ -3,6 +3,7 @@ import { TaskService } from './task.service';
 import {
   createTaskInput,
   createTaskOutput,
+  getAllOutput,
 } from '../utils/tests/stubs/task.stub';
 import { prismaMock } from '../utils/tests/prismaMock';
 import * as sinon from 'sinon';
@@ -76,6 +77,19 @@ describe('TaskController Unit Tests', () => {
       sinon.assert.calledWith(res.json, {
         statusCode: 204,
         message: 'Tasks were not found.',
+      });
+    });
+
+    it('should return correct response if TaskService.getAll returns', async () => {
+      sandbox.stub(service, 'getAll').resolves(getAllOutput);
+      const res = mockResponse();
+
+      await controller.getAll(mockRequest, res);
+
+      sinon.assert.calledWith(res.status, 200);
+      sinon.assert.calledWith(res.json, {
+        statusCode: 200,
+        data: getAllOutput,
       });
     });
   });

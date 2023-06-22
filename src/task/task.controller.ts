@@ -22,7 +22,7 @@ export class TaskController {
       allTasks = await this.service.getAll();
       return res.status(200).json({
         statusCode: 200,
-        data: { ...allTasks },
+        data: allTasks,
       });
     } catch (e) {
       if (e instanceof TasksNotFoundError)
