@@ -32,4 +32,8 @@ export class TaskService {
     }
     return task;
   }
+
+  async updateById(id: string): Promise<any> {
+    await this.prisma.task.findUnique({ where: { id: Number(id) } });
+  }
 }

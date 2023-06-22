@@ -85,4 +85,14 @@ describe('TaskService Unit Tests', () => {
       expect(response).toEqual(getByIdOutput);
     });
   });
+
+  describe('When updating a specifig task', () => {
+    it('should call PrismaClient.findUnique with task id', async () => {
+      const prismaSpy = jest.spyOn(prismaMock.task, 'findUnique');
+
+      await service.updateById('1');
+
+      expect(prismaSpy).toHaveBeenCalledWith({ where: { id: 1 } });
+    });
+  });
 });
