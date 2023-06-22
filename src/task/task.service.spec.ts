@@ -6,7 +6,7 @@ import {
   getAllOutput,
 } from '../utils/tests/stubs/task.stub';
 import { type Task } from './task.entity';
-import { TasksNotFoundError } from './tasks.errors';
+import { TaskNotFoundError, TasksNotFoundError } from './tasks.errors';
 
 describe('TaskService Unit Tests', () => {
   const service = new TaskService(prismaMock);
@@ -60,12 +60,20 @@ describe('TaskService Unit Tests', () => {
   });
 
   describe('When listing a specific task', () => {
-    it('should call PrismaClient.findUniqueOrThrow with id', async () => {
-      const prismaSpy = jest.spyOn(prismaMock.task, 'findUniqueOrThrow');
+    it('should call PrismaClient.findUnique with id', async () => {
+      const prismaSpy = jest.spyOn(prismaMock.task, 'findUnique');
 
       await service.getById(1);
 
       expect(prismaSpy).toHaveBeenCalledWith({ where: { id: 1 } });
+    });
+
+    it('should throw if task was not found', async () => {
+      prismaMock.task.findUnique.mockResolvedValue(null as any);
+
+      const promise = service.getById(1);
+
+      await expect(promise).rejects.toThrow(new TaskNotFoundError());
     });
   });
 });

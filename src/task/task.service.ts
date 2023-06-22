@@ -4,7 +4,7 @@ import {
   type CreateTaskInputDto,
 } from './dto/createTask.dto';
 import { type Task } from './task.entity';
-import { TasksNotFoundError } from './tasks.errors';
+import { TaskNotFoundError, TasksNotFoundError } from './tasks.errors';
 
 export class TaskService {
   constructor(private readonly prisma: PrismaClient) {}
@@ -24,6 +24,10 @@ export class TaskService {
   }
 
   async getById(id: number): Promise<any> {
-    await this.prisma.task.findUniqueOrThrow({ where: { id } });
+    const task = await this.prisma.task.findUnique({ where: { id } });
+    if (task === null) {
+      throw new TaskNotFoundError();
+    }
+    return task;
   }
 }
