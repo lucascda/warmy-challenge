@@ -171,5 +171,17 @@ describe('TaskController Unit Tests', () => {
       sinon.assert.calledWith(res.status, 204);
       sinon.assert.called(res.json);
     });
+
+    it('should return 200 response if task update is done succesfully', async () => {
+      sandbox.stub(service, 'updateById').resolves(getByIdOutput);
+
+      await controller.updateById(req, res);
+
+      sinon.assert.calledWith(res.status, 200);
+      sinon.assert.calledWith(res.json, {
+        statusCode: 200,
+        data: getByIdOutput,
+      });
+    });
   });
 });

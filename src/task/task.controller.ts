@@ -50,7 +50,14 @@ export class TaskController {
     }
 
     try {
-      await this.service.updateById(req.params.taskId, req.body);
+      const updatedTask = await this.service.updateById(
+        req.params.taskId,
+        req.body,
+      );
+      return res.status(200).json({
+        statusCode: 200,
+        data: updatedTask,
+      });
     } catch (e) {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
