@@ -30,4 +30,8 @@ router.put('/tasks/:taskId', (async (req: Request, res: Response) => {
   return await taskController.updateById(req, res);
 }) as RequestHandler);
 
+router.delete('/tasks/:taskId', (async (req: Request, res: Response) => {
+  return await taskController.deleteById(req, res);
+}) as RequestHandler);
+
 export { router };
