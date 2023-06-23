@@ -7,7 +7,10 @@
     "test": "jest -i --passWithNoTests --silent --noStackTrace",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
+    "prestart:dev": "npm run docker:up && npm run prisma:migrate",
     "start:dev": "tsnd --respawn --transpile-only src/server.ts",
+    "docker:up": "docker compose up -d",
+    "prisma:migrate": "npx prisma migrate dev",
     "prepare": "husky install"
   },
   "keywords": [],
