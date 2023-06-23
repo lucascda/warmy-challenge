@@ -124,7 +124,7 @@ describe('TaskController Unit Tests', () => {
     });
 
     it('should return error response if TaskService.getById throws', async () => {
-      sinon.stub(service, 'getById').rejects(new TaskNotFoundError());
+      sandbox.stub(service, 'getById').rejects(new TaskNotFoundError());
 
       await controller.getById(req, res);
 
@@ -158,6 +158,15 @@ describe('TaskController Unit Tests', () => {
 
       expect(serviceSpy).toHaveBeenCalledWith(params.taskId, req.body);
       expect(req.body).toEqual(getByIdInput);
+    });
+
+    it('should return 204 response if TaskService.getById throws', async () => {
+      sandbox.stub(service, 'getById').throws(new TaskNotFoundError());
+
+      await controller.updateById(req, res);
+
+      sinon.assert.calledWith(res.status, 204);
+      sinon.assert.called(res.json);
     });
   });
 });
