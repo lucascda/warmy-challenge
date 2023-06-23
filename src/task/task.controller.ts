@@ -64,6 +64,10 @@ export class TaskController {
   }
 
   async deleteById(req: Request, res: Response): Promise<any> {
-    await this.service.getById(req.params.taskId);
+    try {
+      await this.service.getById(req.params.taskId);
+    } catch (e) {
+      if (e instanceof TaskNotFoundError) return res.status(204).json();
+    }
   }
 }
