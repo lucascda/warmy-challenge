@@ -70,6 +70,10 @@ export class TaskController {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
 
-    await this.service.deleteById(req.params.taskId);
+    try {
+      await this.service.deleteById(req.params.taskId);
+    } catch (e) {
+      if (e instanceof TaskNotFoundError) return res.status(204).json();
+    }
   }
 }

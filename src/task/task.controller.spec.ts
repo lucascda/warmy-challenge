@@ -214,5 +214,14 @@ describe('TaskController Unit Tests', () => {
 
       sinon.assert.calledWith(serviceSpy, req.params.taskId);
     });
+
+    it('should return 204 response if TaskService.deleteById throws', async () => {
+      sandbox.stub(service, 'deleteById').throws(new TaskNotFoundError());
+
+      await controller.deleteById(req, res);
+
+      sinon.assert.calledWith(res.status, 204);
+      sinon.assert.called(res.json);
+    });
   });
 });
