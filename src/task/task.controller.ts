@@ -71,7 +71,11 @@ export class TaskController {
     }
 
     try {
-      await this.service.deleteById(req.params.taskId);
+      const deletedTask = await this.service.deleteById(req.params.taskId);
+      return res.status(200).json({
+        statusCode: 200,
+        data: deletedTask,
+      });
     } catch (e) {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
