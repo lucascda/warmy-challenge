@@ -184,4 +184,18 @@ describe('TaskController Unit Tests', () => {
       });
     });
   });
+
+  describe('When deleting a specifig task', () => {
+    const params = { taskId: '1' };
+    const req = mockRequest({ ...getByIdInput }, params);
+    const res = mockResponse();
+
+    it('should call TaskService.getById with task id', async () => {
+      const serviceSpy = sandbox.spy(service, 'getById');
+
+      await controller.deleteById(req, res);
+
+      sinon.assert.calledWith(serviceSpy, req.params.taskId);
+    });
+  });
 });

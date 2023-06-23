@@ -62,4 +62,8 @@ export class TaskController {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
   }
+
+  async deleteById(req: Request, res: Response): Promise<any> {
+    await this.service.getById(req.params.taskId);
+  }
 }
