@@ -69,5 +69,7 @@ export class TaskController {
     } catch (e) {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
+
+    await this.service.deleteById(req.params.taskId);
   }
 }

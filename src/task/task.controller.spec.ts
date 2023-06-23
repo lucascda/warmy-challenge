@@ -206,5 +206,13 @@ describe('TaskController Unit Tests', () => {
       sinon.assert.calledWith(res.status, 204);
       sinon.assert.called(res.json);
     });
+
+    it('should call TaskService.deleteById with task id', async () => {
+      const serviceSpy = sandbox.spy(service, 'deleteById');
+
+      await controller.deleteById(req, res);
+
+      sinon.assert.calledWith(serviceSpy, req.params.taskId);
+    });
   });
 });
