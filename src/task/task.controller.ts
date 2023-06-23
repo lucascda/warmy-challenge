@@ -49,6 +49,10 @@ export class TaskController {
       if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
 
-    await this.service.updateById(req.params.taskId, req.body);
+    try {
+      await this.service.updateById(req.params.taskId, req.body);
+    } catch (e) {
+      if (e instanceof TaskNotFoundError) return res.status(204).json();
+    }
   }
 }

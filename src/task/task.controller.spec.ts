@@ -162,5 +162,14 @@ describe('TaskController Unit Tests', () => {
       sinon.assert.calledWith(res.status, 204);
       sinon.assert.called(res.json);
     });
+
+    it('should return 204 response if TaskService.updateById throws', async () => {
+      sandbox.stub(service, 'updateById').throws(new TaskNotFoundError());
+
+      await controller.updateById(req, res);
+
+      sinon.assert.calledWith(res.status, 204);
+      sinon.assert.called(res.json);
+    });
   });
 });
