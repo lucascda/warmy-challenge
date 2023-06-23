@@ -26,4 +26,8 @@ router.get('/tasks/:taskId', (async (req: Request, res: Response) => {
   return await taskController.getById(req, res);
 }) as RequestHandler);
 
+router.put('/tasks/:taskId', (async (req: Request, res: Response) => {
+  return await taskController.updateById(req, res);
+}) as RequestHandler);
+
 export { router };
