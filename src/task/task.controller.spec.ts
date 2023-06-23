@@ -74,15 +74,12 @@ describe('TaskController Unit Tests', () => {
     });
 
     it('it should return error response if TaskService.getAll throws', async () => {
-      sandbox.stub(service, 'getAll').rejects(new TasksNotFoundError());
+      sandbox.stub(service, 'getAll').throws(new TasksNotFoundError());
 
       await controller.getAll(req, res);
 
       sinon.assert.calledWith(res.status, 204);
-      sinon.assert.calledWith(res.json, {
-        statusCode: 204,
-        message: 'Tasks were not found.',
-      });
+      sinon.assert.called(res.json);
     });
 
     it('should return correct response if TaskService.getAll returns', async () => {
@@ -124,15 +121,12 @@ describe('TaskController Unit Tests', () => {
     });
 
     it('should return error response if TaskService.getById throws', async () => {
-      sandbox.stub(service, 'getById').rejects(new TaskNotFoundError());
+      sandbox.stub(service, 'getById').throws(new TaskNotFoundError());
 
       await controller.getById(req, res);
 
       sinon.assert.calledWith(res.status, 204);
-      sinon.assert.calledWith(res.json, {
-        statusCode: 204,
-        message: 'Task was not found',
-      });
+      sinon.assert.called(res.json);
     });
   });
 

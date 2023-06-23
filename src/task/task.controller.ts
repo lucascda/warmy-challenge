@@ -25,11 +25,7 @@ export class TaskController {
         data: allTasks,
       });
     } catch (e) {
-      if (e instanceof TasksNotFoundError)
-        return res.status(204).json({
-          statusCode: 204,
-          message: e.message,
-        });
+      if (e instanceof TasksNotFoundError) return res.status(204).json();
     }
   }
 
@@ -42,11 +38,7 @@ export class TaskController {
         data: task,
       });
     } catch (e) {
-      if (e instanceof TaskNotFoundError)
-        return res.status(204).json({
-          statusCode: 204,
-          message: e.message,
-        });
+      if (e instanceof TaskNotFoundError) return res.status(204).json();
     }
   }
 
