@@ -6,9 +6,12 @@ export class CreateTaskInputDto {
 
   description: string;
 
-  constructor(title: string, description: string) {
+  finished: boolean;
+
+  constructor(title: string, description: string, finished: boolean) {
     this.title = title;
     this.description = description;
+    this.finished = finished;
   }
 }
 
