@@ -1,11 +1,14 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 
 export class CreateTaskInputDto {
   @IsNotEmpty()
   title: string;
 
+  @IsNotEmpty()
   description: string;
 
+  @IsNotEmpty()
+  @IsBoolean()
   finished: boolean;
 
   constructor(title: string, description: string, finished: boolean) {
@@ -35,8 +38,14 @@ export class CreateTaskOutputDto {
 }
 
 export class UpdateTaskInputDto {
+  @IsNotEmpty()
   title: string;
+
+  @IsNotEmpty()
   description: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
   finished: boolean;
 
   constructor(title: string, description: string, finished: boolean) {

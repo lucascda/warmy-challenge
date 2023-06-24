@@ -26,9 +26,13 @@ router.get('/tasks/:taskId', (async (req: Request, res: Response) => {
   return await taskController.getById(req, res);
 }) as RequestHandler);
 
-router.put('/tasks/:taskId', (async (req: Request, res: Response) => {
-  return await taskController.updateById(req, res);
-}) as RequestHandler);
+router.put(
+  '/tasks/:taskId',
+  ValidationMiddleware.validate(CreateTaskInputDto) as RequestHandler,
+  (async (req: Request, res: Response) => {
+    return await taskController.updateById(req, res);
+  }) as RequestHandler,
+);
 
 router.delete('/tasks/:taskId', (async (req: Request, res: Response) => {
   return await taskController.deleteById(req, res);
