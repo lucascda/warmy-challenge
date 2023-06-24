@@ -46,6 +46,8 @@ Com o projeto executando (passos acima), abra seu navegador e visite a url:
 ## Pequenas considerações
 
 1. Foquei em construir as funcionalidades pedidas e cobrir o controller e service com testes unitários
-2. Adicionei validação básica nos endpoints POST e PUT
-3. Se fosse num projeto real eu adicionaria testes de integração e e2e, além de testar e documentar a validação, mas não tive tempo pra fazer isso
-4. Foi divertido e enriquecedor fazer esse desafio, aprendi muitas coisas fazendo ele =)
+2. Optei pela arquitetura de projeto folder by module e não criei pastas pra controller e services por achar que adicionaria muita complexidade desnecessária
+3. Adicionei validação básica nos endpoints POST e PUT
+4. Se fosse num projeto real eu adicionaria testes de integração e e2e, além de testar e documentar a validação, mas não tive tempo pra fazer isso
+5. Também adicionaria uma camada de repositórios num projeto real, pra abstrair o acesso dos dados através do Prisma.
+6. Foi divertido e enriquecedor fazer esse desafio, aprendi muitas coisas fazendo ele =)
