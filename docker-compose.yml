@@ -3,10 +3,8 @@ services:
   dev-db:
     image: postgres
     restart: always
-    environment:
-      - POSTGRES_DB=task-api
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=example
+    env_file:
+      - .env
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
