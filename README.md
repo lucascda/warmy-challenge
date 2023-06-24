@@ -42,3 +42,10 @@ POSTGRES_PASSWORD=example
 Com o projeto executando (passos acima), abra seu navegador e visite a url:
 
 `http://localhost:[PORT]/api-docs`
+
+## Pequenas considerações
+
+1. Foquei em construir as funcionalidades pedidas e cobrir o controller e service com testes unitários
+2. Adicionei validação básica nos endpoints POST e PUT
+3. Se fosse num projeto real eu adicionaria testes de integração e e2e, além de testar e documentar a validação, mas não tive tempo pra fazer isso
+4. Foi divertido e enriquecedor fazer esse desafio, aprendi muitas coisas fazendo ele =)
